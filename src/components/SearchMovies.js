@@ -1,10 +1,11 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
 
 import noPoster from '../assets/images/no-poster.jpg';
 
 function SearchMovies(){
 
-	const movies = [
+	/* const movies = [
 		{
 			"Title": "Parchís",
 			"Year": "1983",
@@ -17,10 +18,29 @@ function SearchMovies(){
 		},
 	];
 
-	const keyword = 'PELÍCULA DEMO';
+	const keyword = 'PELÍCULA DEMO'; */
+	
+	const keyword = "action"
 
 	// Credenciales de API
-	const apiKey = 'X'; // Intenta poner cualquier cosa antes para probar
+	const apiKey /* = 'X' */; // Ingresar ApiKey
+
+	//El estado inicial de movies es un array vacío
+	const [movies, setMovies] = useState([])
+
+	//
+	useEffect(()=>{
+		console.log("Se montó el componente");
+		fetch("http://www.omdbapi.com/?s="+keyword+"&apikey="+apiKey)
+		.then(response=>response.json())
+		.then(data=>{
+			//Se cambia el estado de movies agregando las peliculas encontradas al array 
+			setMovies(data.Search) 
+		})
+	}, [])
+
+
+
 
 	return(
 		<div className="container-fluid">
