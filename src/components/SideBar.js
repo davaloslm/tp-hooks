@@ -5,6 +5,7 @@ import GenresInDb from './GenresInDb';
 import LastMovieInDb from './LastMovieInDb';
 import ContentRowMovies from './ContentRowMovies';
 import NotFound from './NotFound';
+import SearchMovies from './SearchMovies';
 import {Link, Route, Switch} from 'react-router-dom';
 
 function SideBar(){
@@ -91,6 +92,9 @@ function SideBar(){
                 </Route>
                 <Route path="/ContentRowMovies">
                     <ContentRowMovies />
+                </Route>
+                <Route path="/search">
+                    <SearchMovies />
                 </Route>
                 <Route component={NotFound} />
             </Switch>
