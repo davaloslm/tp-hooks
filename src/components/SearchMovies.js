@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 import noPoster from '../assets/images/no-poster.jpg';
 
@@ -20,13 +20,34 @@ function SearchMovies(){
 
 	const keyword = 'PELÍCULA DEMO'; */
 	
-	const keyword = "action"
-
 	// Credenciales de API
 	const apiKey /* = 'X' */; // Ingresar ApiKey
 
+	//El estado inicial de keyword es "action"
+	const [keyword, setkeyword] = useState("action")
+
 	//El estado inicial de movies es un array vacío
 	const [movies, setMovies] = useState([])
+
+    const input = useRef()
+	const form = useRef()
+	
+	const setInputValue = ()=>{
+		setKeyword(input.current.value)
+	}
+
+	const searchMovie = ()=>{
+		useEffect(()=>{
+		console.log("Se montó el componente");
+		fetch("http://www.omdbapi.com/?s="+keyword+"&apikey="+apiKey)
+		.then(response=>response.json())
+		.then(data=>{
+			//Se cambia el estado de movies agregando las peliculas encontradas al array 
+			setMovies(data.Search) 
+		})
+	}, [])
+	}
+
 
 	//
 	useEffect(()=>{
@@ -50,10 +71,10 @@ function SearchMovies(){
 					<div className="row my-4">
 						<div className="col-12 col-md-6">
 							{/* Buscador */}
-							<form method="GET">
+							<form ref={form} method="GET" onSubmit={searchMovie}>
 								<div className="form-group">
 									<label htmlFor="">Buscar por título:</label>
-									<input type="text" className="form-control" />
+									<input ref={input} type="text" className="form-control" onBlur={setInputValue} />
 								</div>
 								<button className="btn btn-info">Search</button>
 							</form>
